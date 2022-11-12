@@ -34,22 +34,22 @@ int*** genIntersection(int streetOne, int streetTwo, int streetThree, int street
 }
 
 // function prototypes
-int** runFiveFrames(int* lightControl);
-int** runFrame(int* lightControl);
+int*** runFiveFrames(int** lightControl);
+int*** runFrame(int** lightControl);
 
-void moveThroughIntersection(int* lightControl, int** intersection);
-void moveUpLane(int* lightControl, int** intersection, int lane_no);
-int checkCollision(int** intersection, int laneOne, int laneTwo);
+void moveThroughIntersection(int** lightControl, int*** intersection);
+void moveUpLane(int** lightControl, int*** intersection, int lane_no);
+int checkCollision(int*** intersection, int laneOne, int laneTwo);
 
-void checkTraffic(int** intersection, int laneOne, int laneTwo);
+void checkTraffic(int*** intersection, int laneOne, int laneTwo);
 
-void movePedestrians(int* lightControl, int** intersection);
-void checkTrafficPedestrians(int** intersection, int laneOne, int laneTwo);
+void movePedestrians(int** lightControl, int*** intersection);
+void checkTrafficPedestrians(int*** intersection, int laneOne, int laneTwo);
 
-int framePenalty(int** intersection);
+int framePenalty(int*** intersection);
 
-int emergencyVehiclePath(int** intersection, int laneOne, int laneTwo);
-int emergencyVehiclePresent(int** intersection, int laneOne, int laneTwo);
+int emergencyVehiclePath(int*** intersection, int laneOne, int laneTwo);
+int emergencyVehiclePresent(int*** intersection, int laneOne, int laneTwo);
 
 
 
