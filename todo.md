@@ -1,7 +1,22 @@
 # TODO
 - Test C->Python using Python Bindings
 - Create simulation program to generate traffic randomly according to a given distribution
+  - Starts at midnight and goes to next midnight
+  - Follows normal distribution
+  - Random variation at any given time
+  - 2 intersection possibility
+    - Pass-through intersection, where the majority of traffic on one lane and moves straight through
+    - Random, where traffic evenly spawns and moves in all directions
 - Research current traffic algorithms
 - Create main program
   - Test
+  - Valgrind
 - GUI
+- Python Handler
+  - Generate 5 traffic files
+  - Runs the standard model on each one, records penalty
+  - Trains Neural Network on the 5 files for 5 generations
+  - Save penalty to output file (with epoch number)
+  - Restart (Do this 1,000,000 times)
+  - To step it up, we can increase the traffic files we do at 1 time, or do 1 traffic file for 1 generation, and do more generations overall
+- Learn LaTeX to create final report
