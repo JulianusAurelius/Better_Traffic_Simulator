@@ -5,6 +5,23 @@ int calcAcceleration(int** lightControl, car* currCar, car* nextCar, int followD
     // endPos
     // check if curr car is NULL, if so calculate distance as the distance of nextCar's rear bumper to the end of the lane
     // if nextCar is NULL, calculate the distance as the distance of currCar's front bumper to the intersection
+    int startPos = currCar == NULL ? -1 : currCar->distance;
+    if (startPos == -1) {
+        switch (lane) {
+            case 0:
+                startPos = streetOneLength;
+                break;
+            case 1:
+                startPos = streetTwoLength;
+                break;
+            case 2:
+                startPos = streetThreeLength;
+                break;
+            case 3:
+                startPos = streetFourLength;
+                break;
+        }
+    }
 
     // if the car is in front, and the light has been yellow for more than 3 seconds, the acceleration cannot be positive
         // else calculate the required acceleration to reach the light by the 3rd second
