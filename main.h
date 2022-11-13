@@ -1,5 +1,19 @@
 #ifndef MAIN_H
 #define MAIN_H
+
+// include the header file of the individual function files
+#include "calcAcceleration.h"
+#include "calcFollowDistance.h"
+#include "checkTraffic.h"
+#include "checkTrafficPedestrians.h"
+#include "flatten.h"
+#include "framePenalty.h"
+#include "freeCar.h"
+#include "movePedestrians.h"
+#include "moveUpLane.h"
+#include "spawnCar.h"
+#include "updateIntersection.h"
+
 // width of a segment of road, 1 ft by default
 #define SEGMENT_WIDTH 1
 #define FPS 15
@@ -7,6 +21,16 @@
 #define SPEED_LIMIT 66
 // 15 mph turning average
 #define TURNING_SPEED 22
+
+//      #####
+//      #####
+//      ##1##
+// ###############
+// ####0#####2####
+// ###############
+//      ##3##
+//      #####
+//      #####
 
 typedef struct {
     unsigned int distance; // distance from the intersection to the front of the car (Not a char to allow for higher values than 255)
@@ -28,6 +52,10 @@ typedef struct {
 
 unsigned long long int penalty = 0;
 unsigned long int second = 0;
+// file with the spawn data, in chronological order
+FILE *spawnFile;
+// 3d array of the intersection
+int*** intersection;
 
 // global lengths of the streets =================================
 
@@ -71,11 +99,22 @@ char pedestrianWaiting[8] = {'\0'};
 // intersection extra data ======================================
 
 // 4 roads * [active car in lane, time_car_in_lane, active pedestrian crossing] * in/out lanes (2)
+// lane*6 + 0: active car in outgoing lane
+// lane*6 + 1: time_car_in_lane in outgoing lane
+// lane*6 + 2: active pedestrian crossing in outgoing lane
+// lane*6 + 3: active car in incoming lane
+// lane*6 + 4: time_car_in_lane in incoming lane
+// lane*6 + 5: active pedestrian crossing in incoming lane
 char intersectExtra[4*3*2] = {'\0'};
 
 // extra ========================================================
 
 // global heap for misc values and data
+// 0 -> lane 0's yellow light time
+// 1 -> lane 1's yellow light time
+// 2 -> lane 2's yellow light time
+// 3 -> lane 3's yellow light time
+// 4 -> fractional penalty var (modulo)
 int heap[100];
 
 // function prototypes ==========================================
@@ -85,7 +124,7 @@ int* runOneSecond(int** lightControl);
 // reads from a file and spawns cars if it can, otherwise add to waitingQueue
 void spawnCar(car** linkedListIntersection);
 // updates the intersection with the cars in the linked list. Run at the end of one second
-int*** updateIntersection(car** linkedListIntersection);
+void updateIntersection(car** linkedListIntersection, int*** intersection);
 // flattens the intersection into a 1D array for AI processing
 int* flatten(int*** intersection);
 
@@ -97,28 +136,31 @@ int* flatten(int*** intersection);
 // and sees if the length of the end of the lane can fit the next waiting car
 // (if present) plus following distance based on speed
 void moveUpLane(int** lightControl, car** linkedListIntersection);
-// returns 1 if vehicle collision, 2 if pedestrian collision, 0 otherwise
-int collision(car* car, char* intersectExtra, char* pedestrianCrossing);
 
 // checks lanes for oncoming traffic to see if a right-on-red turn is possible
 // looks at the next car in the lane with the green light, and compares distance
 // vs speed
-void checkTraffic(car** linkedListIntersection, int laneOne, int laneTwo); 
+int checkTraffic(car** linkedListIntersection, int laneOne, int laneTwo); 
+// checks opposite lane for incoming traffic (if other is red) to see if
+// a left turn is possible. Otherwise car will stall in the intersection
+int checkLeftTurn(car** linkedListIntersection, int laneOne, int laneTwo);
 
 // Checks if pedestrians are safe to cross (no cars coming OR walk light, part of lightControl)
-void movePedestrians(int** lightControl, char* pedestrianCrossing);
+// If so, moves pedestrians across the street
+void movePedestrians(int** lightControl);
 // helper function of movePedestrians to check if no cars are coming
-void checkTrafficPedestrians(car** linkedListIntersection, int laneOne, int laneTwo);
+void checkTrafficPedestrians(car** linkedListIntersection, int laneOne);
 
 // checks how long cars and pedestrians have been waiting at the intersection
 // also adds severe penalties for accidents
-int framePenalty(car** linkedListIntersection, char* pedestrianCrossing, char* pedestrianWaiting, char* intersectExtra);
+long double framePenalty(car** linkedListIntersection, char* pedestrianCrossing, char* pedestrianWaiting, char* intersectExtra);
 
 // calculates the following distance of a car based on integer division by
 // 10, then that in seconds (multipled by speed/second). Returns in SEGMENT_WIDTH
+// if currCar is NULL, considers distance to be max road length
 int calcFollowDistance(int speed, car* currCar, car* nextCar);
 
-// calculate the required deacceleration. Returns signed value of deacceleration
+// calculate the required acceleration. Returns signed value of acceleration
 // (negative -> slow down, positive -> speed up)
 // if light is green, then bases accerlation off of followDistance vs actual distance
 //    if it's about to enter the intersection and needs to turn, it will calculate
@@ -131,7 +173,7 @@ int calcFollowDistance(int speed, car* currCar, car* nextCar);
 //    distance and the deceleration needed to stop at the red light (taking into)
 //    account the length of vehicles ahead). Deceleration cannot be more than
 //    maxDeceleration
-int calcDeceleration(int** lightControl, car* currCar, car* nextCar, int followDistance, int lane);
+int calcAcceleration(int** lightControl, car* currCar, car* nextCar, int followDistance, int lane);
 
 
 // free car after it reaches exit lane
