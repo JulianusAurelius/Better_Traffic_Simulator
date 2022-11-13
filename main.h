@@ -161,7 +161,7 @@ long double framePenalty(car** linkedListIntersection, char* pedestrianCrossing,
 // calculates the following distance of a car based on integer division by
 // 10, then that in seconds (multipled by speed/second). Returns in SEGMENT_WIDTH
 // if currCar is NULL, considers distance to be max road length
-int calcFollowDistance(int speed, car* currCar, car* nextCar);
+int calcFollowDistance(car* currCar, car* nextCar);
 
 // calculate the required acceleration. Returns signed value of acceleration
 // (negative -> slow down, positive -> speed up)
