@@ -7,6 +7,7 @@ void spawnCar(car** linkedListIntersection) {
         // if the next token is a 1,
             // create a new car
                 // see if the spawn lane has enough room (with following distance, but speed can be
+                // make sure carBehind is NULL
                 // adjusted to make it work, if need be, as long as the speed is equal to the car
                 // in front of it)
                     // if it does, then append the car to the end of the linked list

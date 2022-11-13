@@ -23,11 +23,11 @@ int*** init(int streetOne, int streetTwo, int streetThree, int streetFour) {
     streetTwoLength = streetTwo;
     streetThreeLength = streetThree;
     streetFourLength = streetFour;
-    int*** intersection = (int**)malloc(sizeof(int**) * 4);
-    intersection[0] = (int*)calloc(streetOne, sizeof(int*));
-    intersection[1] = (int*)calloc(streetTwo, sizeof(int));
-    intersection[2] = (int*)calloc(streetThree, sizeof(int));
-    intersection[3] = (int*)calloc(streetFour, sizeof(int));
+    int*** intersection = (int***)malloc(sizeof(int**) * 4);
+    intersection[0] = (int**)calloc(streetOne, sizeof(int*));
+    intersection[1] = (int**)calloc(streetTwo, sizeof(int));
+    intersection[2] = (int**)calloc(streetThree, sizeof(int));
+    intersection[3] = (int**)calloc(streetFour, sizeof(int));
 
     int i;
     for (i=0; i<streetOne; i++) {
@@ -63,6 +63,8 @@ int* runOneSecond(int** lightControl) { // python will run this function 86400 t
     // we could make a 2d array of the light control,
     // and then make a 1d array of the pedestrian lights
     // 2 separate arrays
+
+
     int i;
     for (i=0; i<FPS; i++) {
         spawnCar(linkedListIntersection);
@@ -71,6 +73,8 @@ int* runOneSecond(int** lightControl) { // python will run this function 86400 t
         penalty += framePenalty(linkedListIntersection, pedestrianCrossing, pedestrianWaiting, intersectExtra);
     }
     heap[4] = (heap[4]++)%4; // slowing down has a quarter of the cost of slowing down
+
+    // TODO: set heap[4+lane#] to 0 if light not yellow, else increment
     
     // write linked list data to output file
     updateIntersection(linkedListIntersection, intersection);
@@ -123,6 +127,8 @@ void end() { // run once at the end of the program
         laneFour = laneFour->carBehind;
         free(temp);
     }
+    // free linked list intersection
+    free(linkedListIntersection);
 
     // close file
     fclose(spawnFile);

@@ -32,7 +32,7 @@
 //      #####
 //      #####
 
-typedef struct {
+typedef struct car {
     unsigned int distance; // distance from the intersection to the front of the car (Not a char to allow for higher values than 255)
     // following are chars to save space
     char length; // length of the car
@@ -45,7 +45,7 @@ typedef struct {
         // for 2 bytes, this imposes a limit of 65,535 frames, or (with 15 FPS) 4,369 seconds, or 72.82 minutes, or 1.21 hours
         // as it is unlikely for a car to wait at an intersection for more than 1 hour, this should be fine
         // only counts the time the car has had speed 0. Resets to 0 when the car starts moving
-    car* carBehind; // pointer to the car behind this car
+    struct car* carBehind; // pointer to the car behind this car
 } car;
 
 // global variable ===============================================
@@ -114,8 +114,11 @@ char intersectExtra[4*3*2] = {'\0'};
 // 1 -> lane 1's yellow light time
 // 2 -> lane 2's yellow light time
 // 3 -> lane 3's yellow light time
-// 4 -> fractional penalty var (modulo)
-int heap[100];
+// 4 -> fractional penalty var (modulo) lane 1
+// 5 -> fractional penalty var (modulo) lane 2
+// 6 -> fractional penalty var (modulo) lane 3
+// 7 -> fractional penalty var (modulo) lane 4
+int heap[64] = {0};
 
 // function prototypes ==========================================
 
@@ -173,6 +176,7 @@ int calcFollowDistance(int speed, car* currCar, car* nextCar);
 //    distance and the deceleration needed to stop at the red light (taking into)
 //    account the length of vehicles ahead). Deceleration cannot be more than
 //    maxDeceleration
+// RETURNS FEET PER SECOND SQUARED
 int calcAcceleration(int** lightControl, car* currCar, car* nextCar, int followDistance, int lane);
 
 
