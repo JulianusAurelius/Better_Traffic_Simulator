@@ -47,6 +47,11 @@ int*** init(int streetOne, int streetTwo, int streetThree, int streetFour) {
     return intersection;
 }
 
+int* flatIntersectionInit() {
+    int* flatIntersection = (int*)malloc(sizeof(int) * (streetOneLength + streetTwoLength + streetThreeLength + streetFourLength) * 8);
+    return flatIntersection;
+}
+
 int* runOneSecond(int** lightControl) { // python will run this function 86400 times (24 hours * 60 minutes * 60 seconds)
     // might need to be given a 1d array of the light control, then convert
     // pedestrian light = pl
@@ -78,7 +83,7 @@ int* runOneSecond(int** lightControl) { // python will run this function 86400 t
     
     // write linked list data to output file
     updateIntersection(linkedListIntersection, intersection);
-    return flatten(intersection);
+    return flatten(intersection, flatIntersection);
 }
 
 void end() { // run once at the end of the program
