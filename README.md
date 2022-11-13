@@ -1,4 +1,4 @@
-# **Better Traffic Simulator**
+# **Traffic Trainer**
 
 ### **Authors**
 *Julianus* <br>
@@ -19,7 +19,7 @@ As a brief example, consider the average wait time is 30 seconds, with 2000 peop
 A common response might be 'Who cares about a third of a second?', and it does seem trivial. How heavy my foot is that day might have more of an impact. But when we can make a large enough improvement, the benefits are undeniable. [Furthermore, serving one less olive saved American Airlines $40,000 per year](https://www.forbes.com/sites/moiravetter/2015/06/04/the-40000-olive-how-entrepreneurs-can-spend-time-saving-money/). Pennies add up to dollars. <br> <br>
 
 ---------------
-Better Traffic Simulator (*BTS*) is an AI gym for training better Traffic Systems. It takes into account some of the following factors:
+Traffic Trainer is an AI gym for training better traffic systems. It takes into account some of the following factors:
 - Pedestrians
 - Wait time of vehicles and pedestrians
 - Speed & acceleration of vehicles
@@ -28,6 +28,9 @@ There are init functions to set up the simulation, and an end function to alloca
 At the end of the simulation, the penalty can be viewed as a float, and used with a common framework to train the AI. <br>
 *BTS* runs off of a randomly generated traffic file, which, for the best results, should be generated randomly every generation using a bimodal disrtribution based on the time of day. <br>
 One of our team members took the entire competition to learn and use QT so that we could begin to have visualization functionalities. <br>
+
+![Visualization](./ProtoTraffic.PNG)
+
 
 <br>
 
