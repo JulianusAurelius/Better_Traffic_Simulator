@@ -56,6 +56,8 @@ unsigned long int second = 0;
 FILE *spawnFile;
 // 3d array of the intersection
 int*** intersection;
+// 1d array of the intersection
+int* flatIntersection;
 
 // global lengths of the streets =================================
 
@@ -129,7 +131,8 @@ void spawnCar(car** linkedListIntersection);
 // updates the intersection with the cars in the linked list. Run at the end of one second
 void updateIntersection(car** linkedListIntersection, int*** intersection);
 // flattens the intersection into a 1D array for AI processing
-int* flatten(int*** intersection);
+// need to keep track of this as well to eventually free
+int* flatten(int*** intersection, int* flatIntersection);
 
 // void moveThroughIntersection(int** lightControl, car** linkedListIntersection);
 
