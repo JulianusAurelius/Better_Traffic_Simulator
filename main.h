@@ -158,9 +158,8 @@ void checkTrafficPedestrians(car** linkedListIntersection, int laneOne);
 // also adds severe penalties for accidents
 long double framePenalty(car** linkedListIntersection, char* pedestrianCrossing, char* pedestrianWaiting, char* intersectExtra);
 
-// calculates the following distance of a car based on integer division by
-// 10, then that in seconds (multipled by speed/second). Returns in SEGMENT_WIDTH
-// if currCar is NULL, considers distance to be max road length
+// calculates the following distance of a car based on speed of current car and next car
+//then multiplying it by the time we want cars separated by
 int calcFollowDistance(car* currCar, car* nextCar);
 
 // calculate the required acceleration. Returns signed value of acceleration
