@@ -1,6 +1,6 @@
 #include "checkTrafficPedestrians.h"
 
-void checkTrafficPedestrians(car** linkedListIntersection, int laneOne){//, int laneTwo) {
+void checkTrafficPedestrians(int laneOne){//, int laneTwo) {
     // if the pedestrian walk light is on, go
         // return 0
         // this will punish the AI for carelessly letting pedestrians go

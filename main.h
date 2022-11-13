@@ -155,7 +155,7 @@ int checkLeftTurn(car** linkedListIntersection, int laneOne, int laneTwo);
 // If so, moves pedestrians across the street
 void movePedestrians(int** lightControl);
 // helper function of movePedestrians to check if no cars are coming
-void checkTrafficPedestrians(car** linkedListIntersection, int laneOne);
+void checkTrafficPedestrians(int laneOne);
 
 // checks how long cars and pedestrians have been waiting at the intersection
 // also adds severe penalties for accidents
